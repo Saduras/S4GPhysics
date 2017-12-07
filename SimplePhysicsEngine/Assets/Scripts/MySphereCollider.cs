@@ -1,16 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class MySphereCollider : MonoBehaviour {
+public class MySphereCollider : MonoBehaviour
+{
+	public float radius;
 
-	// Use this for initialization
-	void Start () {
-		
+	private void Start()
+	{
+		MyPhysicsEngine.instance.AddSphere(this);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	private void OnDrawGizmos()
+	{
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(transform.position , radius);
 	}
 }
