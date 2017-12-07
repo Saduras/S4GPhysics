@@ -46,7 +46,7 @@ public class MyPhysicsEngine : MonoBehaviour
 	{
 		Simulate();
 		CheckCollisions();
-		// Resolve Collision
+		ResolveCollisions();
 
 		collisions.Clear();
 	}
@@ -72,6 +72,15 @@ public class MyPhysicsEngine : MonoBehaviour
 					collisions.Add(new MyCollision(spheres[i], spheres[j], distance));
 				}
 			}
+		}
+	}
+
+	private void ResolveCollisions()
+	{
+		foreach (var collision in collisions)
+		{
+			collision.colliderA.velocity = Vector3.zero;
+			collision.colliderB.velocity = Vector3.zero;
 		}
 	}
 }
