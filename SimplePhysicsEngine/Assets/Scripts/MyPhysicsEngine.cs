@@ -79,8 +79,14 @@ public class MyPhysicsEngine : MonoBehaviour
 	{
 		foreach (var collision in collisions)
 		{
-			collision.colliderA.velocity = Vector3.zero;
-			collision.colliderB.velocity = Vector3.zero;
+			var A = collision.colliderA;
+			var B = collision.colliderB;
+
+			var velocity = A.mass / (A.mass + B.mass) * A.velocity
+			               + B.mass / (A.mass + B.mass) * B.velocity;
+
+			A.velocity = velocity;
+			B.velocity = velocity;
 		}
 	}
 }
