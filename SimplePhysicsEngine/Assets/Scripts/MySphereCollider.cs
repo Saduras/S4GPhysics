@@ -3,6 +3,8 @@
 public class MySphereCollider : MonoBehaviour
 {
 	public float radius;
+	public float mass;
+	public Vector3 velocity;
 
 	private void Start()
 	{
