@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MyPhysicsEngine : MonoBehaviour
@@ -17,7 +18,15 @@ public class MyPhysicsEngine : MonoBehaviour
 		}
 	}
 
+	public enum CollisionResolutionType
+	{
+		Inelastic,
+		Elastic,
+	}
+
 	public static MyPhysicsEngine instance;
+
+	public CollisionResolutionType collisionResolutionType;
 
 	List<MySphereCollider> spheres = new List<MySphereCollider>();
 	List<MyCollision> collisions = new List<MyCollision>();
@@ -79,14 +88,43 @@ public class MyPhysicsEngine : MonoBehaviour
 	{
 		foreach (var collision in collisions)
 		{
-			var A = collision.colliderA;
-			var B = collision.colliderB;
+			switch (collisionResolutionType)
+			{
+				case CollisionResolutionType.Inelastic:
+					ResolveInelastic(collision);
+					break;
+				case CollisionResolutionType.Elastic:
+					ResolveElastic(collision);
+					break;
+			}
 
-			var velocity = A.mass / (A.mass + B.mass) * A.velocity
-			               + B.mass / (A.mass + B.mass) * B.velocity;
-
-			A.velocity = velocity;
-			B.velocity = velocity;
 		}
+	}
+
+	private static void ResolveInelastic(MyCollision collision)
+	{
+		var A = collision.colliderA;
+		var B = collision.colliderB;
+
+		var velocity = A.mass / (A.mass + B.mass) * A.velocity
+		               + B.mass / (A.mass + B.mass) * B.velocity;
+
+		A.velocity = velocity;
+		B.velocity = velocity;
+	}
+
+	private void ResolveElastic(MyCollision collision)
+	{
+		var A = collision.colliderA;
+		var B = collision.colliderB;
+
+		var av = (A.mass - B.mass) / (A.mass + B.mass) * A.velocity
+		             + (2 * B.mass) / (A.mass + B.mass) * B.velocity;
+
+		var bv = (2 * A.mass) / (A.mass + B.mass) * A.velocity
+		             + (B.mass - A.mass) / (A.mass + B.mass) * B.velocity;
+
+		A.velocity = av;
+		B.velocity = bv;
 	}
 }
