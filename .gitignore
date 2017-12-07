@@ -34,3 +34,7 @@ sysinfo.txt
 *.unitypackage
 /SimplePhysicsEngine/Library
 /SimplePhysicsEngine/Temp
+/SimplePhysicsEngine/.idea
+/SimplePhysicsEngine/obj
+/SimplePhysicsEngine/Assets/Plugins
+/SimplePhysicsEngine/Assets/Plugins.meta
