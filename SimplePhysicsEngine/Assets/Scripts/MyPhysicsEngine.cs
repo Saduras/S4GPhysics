@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MyPhysicsEngine : MonoBehaviour
@@ -118,11 +117,11 @@ public class MyPhysicsEngine : MonoBehaviour
 		var A = collision.colliderA;
 		var B = collision.colliderB;
 
-		var av = (A.mass - B.mass) / (A.mass + B.mass) * A.velocity
-		             + (2 * B.mass) / (A.mass + B.mass) * B.velocity;
+		var av = A.velocity - (2 * B.mass) / (A.mass + B.mass)
+		         * Vector3.Project(A.velocity - B.velocity, A.transform.position - B.transform.position);
 
-		var bv = (2 * A.mass) / (A.mass + B.mass) * A.velocity
-		             + (B.mass - A.mass) / (A.mass + B.mass) * B.velocity;
+		var bv = B.velocity - (2 * A.mass) / (A.mass + B.mass)
+		         * Vector3.Project(B.velocity - A.velocity, B.transform.position - A.transform.position);
 
 		A.velocity = av;
 		B.velocity = bv;
